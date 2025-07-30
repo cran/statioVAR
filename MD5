@@ -1,0 +1,12 @@
+95d8560bbf7987df931b46dc0efac6fe *DESCRIPTION
+adab888bbbebacdf93d7d013d925a6a0 *NAMESPACE
+fbd5150077f7a886ef14b2e0f7853c0b *NEWS.md
+8fc60f49e3539595a82adee750f30039 *R/detrender.R
+6b7fb5e5e3265acb607ae137a72687b1 *R/pooled.R
+70ba64ca17c6fe8f46afa99a221faac5 *R/statioVAR-package.R
+ff86e00ec03daff16fff0ac5f4f45ad7 *R/zzz.R
+ac13c45e7125a3fd92ca681582ddc295 *inst/CITATION
+348cf6990d3c26aab87e7ed2c658184e *inst/WORDLIST
+1eb95638f8c55010755a8f577e6eabf8 *man/detrender.Rd
+548f81205498d6573410b32f84fe1464 *man/pooled.Rd
+baa573853a607f88d0ca98eb2c83913b *man/statioVAR.Rd
