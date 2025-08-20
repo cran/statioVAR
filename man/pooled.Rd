@@ -18,7 +18,7 @@ pooled(
 \arguments{
 \item{df}{Data frame or tibble (long format).}
 
-\item{id_var}{Character string. Subject identifier column (required).}
+\item{id_var}{Character string. Unit (subject) identifier column (required).}
 
 \item{time_var}{Character string. Numeric time index column (if NULL, then \code{cyc_vars} must be specified). If \code{NULL}, no polynomial time terms are included.}
 
@@ -43,15 +43,15 @@ A named list with:
   \item{\code{df}}{Tibble with added \code{<var>_detrended} columns.}
   \item{\code{coef_tables}}{Named list of coefficient tables (one per variable), with columns \code{predictor}, \code{estimate}, \code{Std. Error}, \eqn{t}, \eqn{p}, and a logical flag \code{kept}.}
   \item{\code{formula_str}}{Character string of the fitted model formula.}
-  \item{\code{n_clusters}}{Integer: number of unique subjects (clusters).}
+  \item{\code{n_units}}{Integer: number of unique units (subjects).}
 }
 }
 \description{
-Remove study‑wide polynomial trend (up to cubic) plus optional cyclic effects
+Remove study-wide polynomial trend (up to cubic) plus optional cyclic effects
 from multivariate panel data by fitting a single OLS model on the pooled 
-series.
-Trend terms up to the chosen degree are estimated; those whose two‑sided t-tests 
-are significant at \code{alpha} are retained, non‑significant components are 
+series.   
+Trend terms up to the chosen degree are estimated; those whose two-sided t-tests 
+are significant at \code{alpha} are retained, non-significant components are 
 set to 0, and the resulting fitted values are subtracted from every observation 
 of the raw series.
 }

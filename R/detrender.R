@@ -1,27 +1,42 @@
-#' Within-person linear detrending for multilevel VAR analysis
+#' Within-unit linear detrending for multilevel VAR analysis
 #'
-#' Remove individual-specific linear trends from panel data to approximate stationarity,
+#' Remove unit-specific linear trends from panel data to approximate stationarity,
 #' preparing inputs for multilevel Vector Autoregressive (VAR) modeling (among others). 
-#' For each subject and each selected variable, a linear regression of the variable on the time index is
-#' tested at significance level \code{alpha}; if the slope is significant, the fitted trend
-#' is subtracted and the subject's mean is re-added to produce detrended series while
-#' preserving between-subject information.
+#' For each unit (subject) and each selected variable, a linear regression of the variable 
+#' on the time index is tested at significance level \code{alpha}; if the slope 
+#' is significant, the fitted trend is subtracted and the mean of the unit is 
+#' re-added, to produce detrended series while preserving between-unit information.   
+#'   
+#' Caution: models with lagged outcomes and per-unit intercepts (fixed or random) 
+#' are prone to Nickell-type bias when there are fewer than
+#' 10 time points (T) per unit; detrending does not remove it. \code{T >= 10} is 
+#' recommended (Nickell, 1981; Judson & Owen, 1999).   
+#' For VAR(1) with an intercept and linear trend, a minimum of \code{K + 4} 
+#' time points per unit (where \code{K} is the number of detrended series) is 
+#' required to maintain positive residual degrees of freedom (Lütkepohl, 2005). 
 #'
 #' @param df Data frame or tibble (long format). 
-#' @param id_var Character string. Subject identifier column (required).
+#' @param id_var Character string. Unit (subject) identifier column (required).
 #' @param time_var Character string. Numeric time index column (required). 
-#' @param vars_to_detrend Character vector. Column names to detrend within each subject (required).
+#' @param vars_to_detrend Character vector. Column names to detrend within each unit (subject) (required).
 #' @param alpha Numeric in (0,1). Significance threshold for retaining a non-zero time slope (default: 0.05).
-#' @param min_obs Integer >2. Minimum observations per subject-variable to attempt detrending (default: 3).
+#' @param min_obs Integer >2. Minimum observations per unit-variable to attempt detrending (default: 3).
 #'
 #' @return A named list with:
 #' \describe{
 #'   \item{\code{df}}{Tibble. The original dataset with additional detrended columns.}
-#'   \item{\code{n_clusters}}{Integer. Number of unique subjects (clusters) processed.}
+#'   \item{\code{n_units}}{Integer. Number of unique units (subjects) processed.}
 #'   \item{\code{total_trends}}{Integer. Total number of individual trends removed across all variables.}
 #'   \item{\code{summary}}{Tibble. Number of removed linear trends per variable, with columns \code{variable} and \code{removed_trends}.}
 #' }
-#'
+#' 
+#' @references
+#' Judson, R. A., & Owen, A. L. (1999). Estimating dynamic panel data models: a guide for macroeconomists. Economics letters, 65(1), 9-15. \doi{10.1016/s0165-1765(99)00130-5}     
+#' 
+#' Lütkepohl, H. (2005). New Introduction to Multiple Time Series Analysis. Springer Berlin Heidelberg. \doi{10.1007/978-3-540-27752-1}   
+#' 
+#' Nickell, S. (1981). Biases in dynamic models with fixed effects. Econometrica: Journal of the econometric society, 1417-1426. \doi{10.2307/1911408}   
+#' 
 #' @examples
 #' df_example <- data.frame(
 #' id = rep(1:2, each = 5),
@@ -37,7 +52,7 @@
 #' min_obs = 3
 #' )
 #' res$df[7:9,]
-#' res$n_clusters
+#' res$n_units
 #' res$total_trends
 #' res$summary
 #'
@@ -127,7 +142,7 @@ detrender <- function(df,
     }
   }
   
-  n_clusters   <- length(unique(df_base[[id_var]]))
+  n_units   <- length(unique(df_base[[id_var]]))
   total_trends <- sum(var_trend_count)
   summary_tbl <- dplyr::tibble(
     variable = names(var_trend_count),
@@ -136,10 +151,10 @@ detrender <- function(df,
   
   if (interactive()) {
     # cosa finisce in console
-  header <- "Within-person trend removal summary"
+  header <- "Within-unit trend removal summary"
   cat("\n", header, "\n", sep = "")
   cat(strrep("-", nchar(header)), "\n", sep = "")
-  cat("Number of clusters: ", n_clusters, "\n", sep = "")
+  cat("Number of units (subjects): ", n_units, "\n", sep = "")
   cat("Total linear trends removed: ", total_trends, "\n\n", sep = "")
   
   for (v in names(var_trend_count)) {
@@ -153,7 +168,7 @@ detrender <- function(df,
   
   list(
     df = df_det,
-    n_clusters = n_clusters,
+    n_units = n_units,
     total_trends = total_trends,
     summary = summary_tbl)
 }

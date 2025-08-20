@@ -6,19 +6,20 @@
 \alias{statioVAR-package}
 \title{Trend Removal for Vector Autoregressive Workflows}
 \description{
-Detrending multivariate time-series to approximate stationarity when dealing 
-with intensive longitudinal data, prior to Vector Autoregressive (VAR) or 
-multilevel-VAR estimation. Classical VAR assumes weak stationarity (constant 
-first two moments), and deterministic trends inflate spurious autocorrelation, 
-biasing Granger-causality and impulse-response analyses. All functions 
-operate on raw panel data and write detrended columns back to the data set, 
-but differ in the level at which the trend is estimated.
+Detrending multivariate time series to approximate stationarity in   
+intensive longitudinal data, prior to vector autoregressive (VAR) or 
+multilevel VAR estimation. Classical VAR assumes weak stationarity (i.e., 
+constant mean, and autocovariances that depend only on lag), and 
+deterministic trends can induce spurious autocorrelation, distorting Granger 
+causality and impulse-response analyses. All functions operate on raw panel 
+data and write detrended columns back to the data set, but differ in the 
+level at which the trend is estimated.
 }
 \details{
 The functions are:
 \itemize{
-  \item \code{\link{detrender}}: within-person linear detrending, which fits and removes a separate linear trend for each subject on each selected variable.
-  \item \code{\link{pooled}}: pooled polynomial detrending, which fits and removes a global polynomial trend (up to cubic) and optional cyclic effects across all subjects.
+  \item \code{\link{detrender}}: within-unit linear detrending, which fits and removes a separate linear trend for each unit (subject) on each selected variable.
+  \item \code{\link{pooled}}: pooled polynomial detrending, which fits and removes a global polynomial trend (up to cubic) and optional cyclic effects across all units (subjects).
 }
 }
 \section{Note}{

@@ -18,3 +18,11 @@
 
 * Fixed DESCRIPTION wording.
 * Added references.
+
+## Version 0.1.3
+
+* Clarified in `detrender()` description the risk of Nickell-type small-T bias, and recommended T>=10.
+* Added in `detrender()` description the K+4 rule for VAR(1).
+* Added references in `detrender()`.
+* Replaced 'clusters' with 'units' in docs and output; return element renamed to `n_units` (was `n_clusters`). 
+  

@@ -1,15 +1,15 @@
 #' Pooled polynomial detrending for multivariate panel data
 #'
-#' Remove study‑wide polynomial trend (up to cubic) plus optional cyclic effects
+#' Remove study-wide polynomial trend (up to cubic) plus optional cyclic effects
 #' from multivariate panel data by fitting a single OLS model on the pooled 
-#' series.
-#' Trend terms up to the chosen degree are estimated; those whose two‑sided t-tests 
-#' are significant at \code{alpha} are retained, non‑significant components are 
+#' series.   
+#' Trend terms up to the chosen degree are estimated; those whose two-sided t-tests 
+#' are significant at \code{alpha} are retained, non-significant components are 
 #' set to 0, and the resulting fitted values are subtracted from every observation 
 #' of the raw series.
 #'
 #' @param df Data frame or tibble (long format). 
-#' @param id_var Character string. Subject identifier column (required).
+#' @param id_var Character string. Unit (subject) identifier column (required).
 #' @param time_var Character string. Numeric time index column (if NULL, then \code{cyc_vars} must be specified). If \code{NULL}, no polynomial time terms are included.
 #' @param vars_to_detrend Character vector. Column names to detrend (required).
 #' @param poly_order Integer in \{1,2,3\}. Maximum degree of the polynomial time trend tested (default: 1):
@@ -27,7 +27,7 @@
 #'   \item{\code{df}}{Tibble with added \code{<var>_detrended} columns.}
 #'   \item{\code{coef_tables}}{Named list of coefficient tables (one per variable), with columns \code{predictor}, \code{estimate}, \code{Std. Error}, \eqn{t}, \eqn{p}, and a logical flag \code{kept}.}
 #'   \item{\code{formula_str}}{Character string of the fitted model formula.}
-#'   \item{\code{n_clusters}}{Integer: number of unique subjects (clusters).}
+#'   \item{\code{n_units}}{Integer: number of unique units (subjects).}
 #' }
 #'
 #' @examples
@@ -122,7 +122,7 @@ pooled <- function(
   # detrending con anche il fitting
   coef_tables <- list()
   df_det      <- df
-  n_clusters  <- length(unique(df[[id_var]]))
+  n_units  <- length(unique(df[[id_var]]))
   
   for (v in vars_to_detrend) {
     fm  <- as.formula(paste(v, "~", formula_str))
@@ -157,5 +157,5 @@ pooled <- function(
     df = df_det,
     coef_tables = coef_tables,
     formula_str = formula_str,
-    n_clusters  = n_clusters)
+    n_units  = n_units)
 }
