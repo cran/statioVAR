@@ -23,7 +23,7 @@
 #' For suggestions or to report any issue, please contact the author.
 #'
 #' @author
-#' Giuseppe Corbelli (<giuseppe.corbelli@uniroma1.it>)
+#' Giuseppe Corbelli (<giuseppe.corbelli@uninettunouniversity.net>)
 #'
 #' @docType package
 #' @name statioVAR

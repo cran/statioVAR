@@ -19,7 +19,7 @@
 #'     \item 3 = linear + quadratic + cubic.
 #'   }
 #' @param cyc_vars Character vector. Column names (e.g. "weekend") for categorical cyclicity variables (if NULL, then \code{time_var} must be specified).
-#' @param alpha Numeric in (0,1). Significance threshold for retaining polynomial terms (default 0.05).
+#' @param alpha Numeric in (0,1]. Significance threshold for retaining polynomial terms (default 0.05). With \code{alpha = 1}, all estimated terms are retained.
 #' @param miss_thresh Numeric in (0,1). Maximum allowed proportion of missing data per variable (default: 0.30).
 #'
 #' @return A named list with:
@@ -91,7 +91,7 @@ pooled <- function(
     rlang::abort("All `cyc_vars` must be column names in df.")
   if (is.null(time_var) && is.null(cyc_vars))
     rlang::abort("Supply at least one of time_var or cyc_vars.")
-  if (!is.numeric(alpha) || alpha <= 0 || alpha >= 1)
+  if (!is.numeric(alpha) || alpha <= 0 || alpha > 1)
     rlang::abort("`alpha` must be between 0 and 1.")
   if (!is.numeric(miss_thresh) || miss_thresh < 0 || miss_thresh > 1)
     rlang::abort("`miss_thresh` must be between 0 and 1.")

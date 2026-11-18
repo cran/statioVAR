@@ -4,6 +4,6 @@
   packageStartupMessage("For more information on getting started, type ?statioVAR.")
   packageStartupMessage(
     "For suggestions or to report issues, please contact Giuseppe Corbelli at \
-    giuseppe.corbelli@uninettunouniversity.net or giuseppe.corbelli@uniroma1.it."
+    giuseppe.corbelli@uninettunouniversity.net."
   )
 }

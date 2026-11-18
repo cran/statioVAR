@@ -33,7 +33,7 @@ pooled(
 
 \item{cyc_vars}{Character vector. Column names (e.g. "weekend") for categorical cyclicity variables (if NULL, then \code{time_var} must be specified).}
 
-\item{alpha}{Numeric in (0,1). Significance threshold for retaining polynomial terms (default 0.05).}
+\item{alpha}{Numeric in (0,1]. Significance threshold for retaining polynomial terms (default 0.05). With \code{alpha = 1}, all estimated terms are retained.}
 
 \item{miss_thresh}{Numeric in (0,1). Maximum allowed proportion of missing data per variable (default: 0.30).}
 }

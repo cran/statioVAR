@@ -25,4 +25,9 @@
 * Added in `detrender()` description the K+4 rule for VAR(1).
 * Added references in `detrender()`.
 * Replaced 'clusters' with 'units' in docs and output; return element renamed to `n_units` (was `n_clusters`). 
-  
+
+## Version 0.1.4
+
+* `detrender()`: the default `alpha` is now 1, so every estimated within-unit linear trend is removed by default.
+* `detrender()`: added a Warning section to the documentation on Nickell-type bias, minimum series length, and the low power of significance-based trend removal in short series.
+* `pooled()`: `alpha` now accepts the value 1, which retains all estimated terms. The default remains 0.05.

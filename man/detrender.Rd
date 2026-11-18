@@ -9,7 +9,7 @@ detrender(
   id_var,
   time_var,
   vars_to_detrend,
-  alpha = 0.05,
+  alpha = 1,
   min_obs = 3
 )
 }
@@ -22,7 +22,7 @@ detrender(
 
 \item{vars_to_detrend}{Character vector. Column names to detrend within each unit (subject) (required).}
 
-\item{alpha}{Numeric in (0,1). Significance threshold for retaining a non-zero time slope (default: 0.05).}
+\item{alpha}{Numeric in (0,1]. Significance threshold for removing a time slope: the trend is removed when the two-sided p-value of the slope is below \code{alpha}. The default (1) removes every estimated linear trend.}
 
 \item{min_obs}{Integer >2. Minimum observations per unit-variable to attempt detrending (default: 3).}
 }
@@ -38,19 +38,30 @@ A named list with:
 \description{
 Remove unit-specific linear trends from panel data to approximate stationarity,
 preparing inputs for multilevel Vector Autoregressive (VAR) modeling (among others). 
-For each unit (subject) and each selected variable, a linear regression of the variable 
-on the time index is tested at significance level \code{alpha}; if the slope 
-is significant, the fitted trend is subtracted and the mean of the unit is 
-re-added, to produce detrended series while preserving between-unit information.   
-  
-Caution: models with lagged outcomes and per-unit intercepts (fixed or random) 
+For each unit (subject) and each selected variable, a linear regression of the 
+variable on the time index is fitted; the fitted trend is subtracted and the 
+mean of the unit is re-added, to produce detrended series while preserving 
+between-unit information.   
+By default (\code{alpha = 1}), every estimated linear trend is removed, 
+independently of its statistical significance.
+}
+\section{Warning}{
+
+Models with lagged outcomes and per-unit intercepts (fixed or random) 
 are prone to Nickell-type bias when there are fewer than
 10 time points (T) per unit; detrending does not remove it. \code{T >= 10} is 
 recommended (Nickell, 1981; Judson & Owen, 1999).   
 For VAR(1) with an intercept and linear trend, a minimum of \code{K + 4} 
 time points per unit (where \code{K} is the number of detrended series) is 
-required to maintain positive residual degrees of freedom (Lütkepohl, 2005).
+required to maintain positive residual degrees of freedom (Lütkepohl, 2005). 
+
+Setting \code{alpha < 1} removes a trend only when its slope is statistically 
+significant (two-sided p-value below \code{alpha}). With few time points per 
+unit, this test often fails to detect real trends, which then remain in the 
+data: for trends of the same size, units with longer series are detrended 
+more often than units with shorter series. The default removes all estimated trends.
 }
+
 \examples{
 df_example <- data.frame(
 id = rep(1:2, each = 5),
@@ -62,7 +73,7 @@ df = df_example,
 id_var = "id",
 time_var = "time",
 vars_to_detrend = "x",
-alpha = 0.05,
+alpha = 1,
 min_obs = 3
 )
 res$df[7:9,]
